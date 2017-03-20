@@ -1,0 +1,53 @@
+{
+  "name": "ladybird-escape",
+  "version": "0.0.0",
+  "main": "lib",
+  "scripts": {
+    "lint": "standard src",
+    "start": "DEBUG=true budo src/index.js --live"
+  },
+  "babel": {
+    "presets": [
+      "urban"
+    ],
+    "plugins": [
+      "transform-react-require",
+      "lodash"
+    ]
+  },
+  "browserify": {
+    "transform": [
+      "babelify",
+      "envify"
+    ]
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-transform-react-require": "^1.0.1",
+    "babel-preset-urban": "^1.0.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.1.0",
+    "budo": "^9.4.7",
+    "envify": "^4.0.0",
+    "standard": "^9.0.2"
+  },
+  "dependencies": {
+    "axios": "^0.15.3",
+    "classnames": "^2.2.5",
+    "eventemitter3": "^2.0.2",
+    "lodash": "^4.17.4",
+    "most": "^1.2.2",
+    "quay": "^0.5.0",
+    "raid": "^2.2.0",
+    "raid-addons": "^2.2.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "reselect": "^2.5.4",
+    "styled-jsx": "^0.5.7"
+  }
+}
