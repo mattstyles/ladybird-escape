@@ -14,10 +14,11 @@ const createChildren = data => {
   })
 }
 
-const Map = ({data}) => {
+const Map = ({data, children}) => {
   return (
     <div className='Map'>
       {createChildren(data)}
+      {children}
       <style jsx>{`
         .Map {
           position: relative;

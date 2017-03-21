@@ -28,7 +28,7 @@ const onMoveComplete = () =>
     type: actions.moveComplete
   })
 
-const clampMap = clamp2d([0, GAME.MAP_SIZE])
+const clampMap = clamp2d([0, GAME.MAP_SIZE - 1])
 
 const moveMap = {
   '<up>': compose(

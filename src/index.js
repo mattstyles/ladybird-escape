@@ -7,13 +7,16 @@ import {signal} from 'core/store'
 import {update} from 'core/keys'
 
 import Map from 'components/map'
+import Player from 'components/player'
 
 const App = ({state}) => {
   const [x, y] = state.player.pos
   return (
     <div>
       <span>{`${x}:${y}`}</span>
-      <Map {...state.map} />
+      <Map {...state.map}>
+        <Player {...state.player} />
+      </Map>
     </div>
   )
 }

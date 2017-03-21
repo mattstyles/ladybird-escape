@@ -32,10 +32,6 @@ export const clamp = (min, max) => value =>
 export const clampMap = clamp(0, GAME.MAP_SIZE)
 
 export const clamp2d = p1 => {
-  console.log('setting clamp', p1)
   let mapClamp = clamp(p1[0], p1[1])
-  return p2 => {
-    console.log('clamping', p1, p2)
-    return [mapClamp(p2[0]), mapClamp(p2[1])]
-  }
+  return p2 => [mapClamp(p2[0]), mapClamp(p2[1])]
 }
