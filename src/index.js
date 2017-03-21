@@ -4,8 +4,9 @@ import {safe} from 'raid-addons'
 
 import el from 'core/element'
 import {signal} from 'core/store'
+import {update} from 'core/keys'
 
-import Map from 'components/map/map'
+import Map from 'components/map'
 
 const App = ({state}) => {
   const [x, y] = state.player.pos
@@ -18,11 +19,14 @@ const App = ({state}) => {
 }
 
 // Debug state
-signal.register(safe(state => {
-  if (process.env.DEBUG) {
-    console.log('state')
-  }
-}))
+// signal.register(safe(state => {
+//   if (process.env.DEBUG) {
+//     console.log(state)
+//   }
+// }))
+
+// Keys
+signal.register(update)
 
 signal.observe(
   state => render(<App state={state} />, el),

@@ -6,7 +6,8 @@ import {generateMap} from 'core/utils'
 
 export const signal = new Signal({
   player: {
-    pos: [0, 0]
+    pos: [0, 0],
+    isMoving: false
   },
   map: {
     data: generateMap()
