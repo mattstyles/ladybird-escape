@@ -4,7 +4,7 @@
   "main": "lib",
   "scripts": {
     "lint": "standard src",
-    "start": "DEBUG=true budo src/index.js --live"
+    "start": "DEBUG=true NODE_PATH=src budo src/index.js --live -- --extension jsx"
   },
   "babel": {
     "presets": [
@@ -12,13 +12,18 @@
     ],
     "plugins": [
       "transform-react-require",
-      "lodash"
+      "lodash",
+      "styled-jsx/babel"
     ]
   },
   "browserify": {
     "transform": [
       "babelify",
       "envify"
+    ],
+    "extension": [
+      ".js",
+      ".jsx"
     ]
   },
   "standard": {
