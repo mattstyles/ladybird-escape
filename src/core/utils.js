@@ -1,11 +1,15 @@
 
 import {GAME} from 'core/constants'
 
-export const to2d = coord => {
+export const to2d = value => {
   return [
-    coord % GAME.MAP_SIZE,
-    coord / GAME.MAP_SIZE | 0
+    value % GAME.MAP_SIZE,
+    value / GAME.MAP_SIZE | 0
   ]
+}
+
+export const to1d = coord => {
+  return (coord[1] * GAME.MAP_SIZE) + coord[0]
 }
 
 export const generateMap = () => {

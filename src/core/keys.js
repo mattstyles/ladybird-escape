@@ -4,8 +4,8 @@ import {compress} from 'raid-addons'
 import {compose} from 'lodash/fp'
 
 import {actions, GAME} from 'core/constants'
-import {signal} from 'core/store'
-import {add2d, clamp2d} from 'core/utils'
+import {dispatch} from 'core/store'
+import {add2d, clamp2d, to1d} from 'core/utils'
 
 /**
  * There should be a delay between keydown emitting, this is
@@ -14,18 +14,13 @@ import {add2d, clamp2d} from 'core/utils'
  * then emit only the latest from the stream.
  */
 
-const onKeydown = key => event =>
-  signal.emit({
-    type: actions.keydown,
-    payload: {
-      event,
-      key
-    }
-  })
+const dispatchKeyDown = dispatch(actions.keydown)
+const dispatchMoveComplete = dispatch(actions.moveComplete)
 
-const onMoveComplete = () =>
-  signal.emit({
-    type: actions.moveComplete
+const onKeydown = key => event =>
+  dispatchKeyDown({
+    event,
+    key
   })
 
 const clampMap = clamp2d([0, GAME.MAP_SIZE - 1])
@@ -69,10 +64,17 @@ export const update = compress({
       return state
     }
 
+    const {key} = payload
+
     state.player.isMoving = true
-    console.log('keydown', payload.key)
-    state.player.pos = newPosition(state.player.pos, payload.key)
-    setTimeout(onMoveComplete, GAME.MOVE_SPEED)
+    state.player.dir = key
+
+    let newPos = newPosition(state.player.pos, key)
+    if (state.map.data[to1d(newPos)]) {
+      state.player.pos = newPos
+    }
+
+    setTimeout(dispatchMoveComplete, GAME.MOVE_SPEED)
     return state
   },
   [actions.moveComplete]: (state, payload) => {

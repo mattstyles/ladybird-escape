@@ -15,3 +15,9 @@ export const signal = new Signal({
 })
 
 export const connect = adaptor(signal)
+
+export const dispatch = type => payload =>
+  signal.emit({
+    type,
+    payload
+  })
