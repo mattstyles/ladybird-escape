@@ -22,11 +22,11 @@ const App = ({state}) => {
 }
 
 // Debug state
-// signal.register(safe(state => {
-//   if (process.env.DEBUG) {
-//     console.log(state)
-//   }
-// }))
+signal.register(safe(state => {
+  if (process.env.DEBUG) {
+    console.log(state)
+  }
+}))
 
 // Keys
 signal.register(update)

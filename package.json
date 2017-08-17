@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "lib",
   "scripts": {
-    "lint": "standard src",
+    "lint": "standard",
     "start": "DEBUG=true NODE_PATH=src budo src/index.js --live -- --extension jsx"
   },
   "babel": {
@@ -31,27 +31,28 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^7.2.3",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-react-require": "^1.0.1",
     "babel-preset-urban": "^1.0.0",
     "babelify": "^7.3.0",
-    "browserify": "^14.1.0",
+    "browserify": "^14.4.0",
     "budo": "^9.4.7",
-    "envify": "^4.0.0",
-    "standard": "^9.0.2"
+    "envify": "^4.1.0",
+    "standard": "^10.0.0"
   },
   "dependencies": {
     "axios": "^0.15.3",
     "classnames": "^2.2.5",
-    "eventemitter3": "^2.0.2",
+    "eventemitter3": "^2.0.3",
     "lodash": "^4.17.4",
-    "most": "^1.2.2",
+    "most": "^1.6.1",
     "quay": "^0.5.0",
-    "raid": "^2.2.0",
-    "raid-addons": "^2.2.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "raid": "^2.7.0",
+    "raid-addons": "^2.8.0",
+    "raid-streams": "^2.8.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "reselect": "^2.5.4",
     "styled-jsx": "^0.5.7"
   }
