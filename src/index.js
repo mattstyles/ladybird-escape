@@ -22,9 +22,9 @@ const App = ({state}) => {
 }
 
 // Debug state
-signal.register(safe(state => {
+signal.register(safe((state, event) => {
   if (process.env.DEBUG) {
-    console.log(state)
+    console.log(event, state)
   }
 }))
 

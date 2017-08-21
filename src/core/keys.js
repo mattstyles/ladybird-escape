@@ -1,15 +1,15 @@
 
-import {compress} from 'raid-addons'
+import {compress, arc, safe} from 'raid-addons'
 import keystream, {actions as keyActions} from 'raid-streams/keys'
 import {compose} from 'lodash/fp'
 
 import {actions, GAME} from 'core/constants'
-import {signal, dispatch} from 'core/store'
-import {add2d, clamp2d, to1d} from 'core/utils'
+import {signal} from 'core/store'
+import {add2d, clamp2d, to1d, delay} from 'core/utils'
 
 signal.mount(keystream())
+const ion = arc(signal)
 
-const dispatchMoveComplete = dispatch(actions.moveComplete)
 const clampMap = clamp2d([0, GAME.MAP_SIZE - 1])
 const newPosition = (pos, key) => moveMap[key]
   ? moveMap[key](pos)
@@ -34,27 +34,43 @@ const moveMap = {
   )
 }
 
-export const update = compress({
-  [keyActions.keydown]: (state, payload) => {
-    if (state.player.isMoving) {
-      return state
-    }
-
-    const {key} = payload
-
-    state.player.isMoving = true
-    state.player.dir = key
-
-    let newPos = newPosition(state.player.pos, key)
-    if (state.map.data[to1d(newPos)]) {
-      state.player.pos = newPos
-    }
-
-    setTimeout(dispatchMoveComplete, GAME.MOVE_SPEED)
-    return state
-  },
-  [actions.moveComplete]: (state, payload) => {
-    state.player.isMoving = false
-    return state
+const onKeydown = ion(async (getState, payload, signal) => {
+  let state = getState()
+  if (state.player.isMoving) {
+    return
   }
+
+  const {key} = payload
+
+  let newPos = newPosition(state.player.pos, key)
+  if (!state.map.data[to1d(newPos)]) {
+    return
+  }
+
+  signal.emit({
+    type: actions.moveStart,
+    payload: {
+      newPos,
+      key
+    }
+  })
+  await delay(GAME.MOVE_SPEED)
+  signal.emit({type: actions.moveComplete})
+})
+
+const onMoveStart = safe((state, payload) => {
+  const {key, newPos} = payload
+  state.player.isMoving = true
+  state.player.dir = key
+  state.player.pos = newPos
+})
+
+const onMoveComplete = safe((state, payload) => {
+  state.player.isMoving = false
+})
+
+export const update = compress({
+  [keyActions.keydown]: onKeydown,
+  [actions.moveStart]: onMoveStart,
+  [actions.moveComplete]: onMoveComplete
 })

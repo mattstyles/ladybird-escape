@@ -39,3 +39,7 @@ export const clamp2d = p1 => {
   let mapClamp = clamp(p1[0], p1[1])
   return p2 => [mapClamp(p2[0]), mapClamp(p2[1])]
 }
+
+export const delay = ms => ({
+  then: cb => setTimeout(cb, ms)
+})

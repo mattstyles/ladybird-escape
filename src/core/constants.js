@@ -6,6 +6,6 @@ export const GAME = {
 }
 
 export const actions = {
-  keydown: 'action:keydown',
+  moveStart: 'action:moveStart',
   moveComplete: 'action:move:complete'
 }
