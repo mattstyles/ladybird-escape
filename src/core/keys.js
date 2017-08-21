@@ -1,29 +1,19 @@
 
-import Quay from 'quay'
 import {compress} from 'raid-addons'
+import keystream, {actions as keyActions} from 'raid-streams/keys'
 import {compose} from 'lodash/fp'
 
 import {actions, GAME} from 'core/constants'
-import {dispatch} from 'core/store'
+import {signal, dispatch} from 'core/store'
 import {add2d, clamp2d, to1d} from 'core/utils'
 
-/**
- * There should be a delay between keydown emitting, this is
- * currently handled in the update but should probably be held in
- * the stream. Use most to handle the quay events and time them,
- * then emit only the latest from the stream.
- */
+signal.mount(keystream())
 
-const dispatchKeyDown = dispatch(actions.keydown)
 const dispatchMoveComplete = dispatch(actions.moveComplete)
-
-const onKeydown = key => event =>
-  dispatchKeyDown({
-    event,
-    key
-  })
-
 const clampMap = clamp2d([0, GAME.MAP_SIZE - 1])
+const newPosition = (pos, key) => moveMap[key]
+  ? moveMap[key](pos)
+  : pos
 
 const moveMap = {
   '<up>': compose(
@@ -44,22 +34,8 @@ const moveMap = {
   )
 }
 
-const newPosition = (pos, key) => {
-  if (!moveMap[key]) {
-    return pos
-  }
-
-  return moveMap[key](pos)
-}
-
-const quay = new Quay()
-quay.on('<up>', onKeydown('<up>'))
-quay.on('<down>', onKeydown('<down>'))
-quay.on('<left>', onKeydown('<left>'))
-quay.on('<right>', onKeydown('<right>'))
-
 export const update = compress({
-  [actions.keydown]: (state, payload) => {
+  [keyActions.keydown]: (state, payload) => {
     if (state.player.isMoving) {
       return state
     }
