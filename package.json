@@ -48,7 +48,7 @@
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
     "eventemitter3": "^2.0.3",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "most": "^1.6.1",
     "raid": "^2.7.0",
     "raid-addons": "^2.8.0",
